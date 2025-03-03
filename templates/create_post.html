@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Create New Post</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.content.label(class="form-label") }}
+      {{ form.content(class="form-control", rows="5") }}
+    </div>
+    <div class="mb-3">
+      {{ form.tags.label(class="form-label") }}
+      {{ form.tags(class="form-control") }}
+      <div class="form-text">Enter tags separated by commas.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+  </form>
+{% endblock %}

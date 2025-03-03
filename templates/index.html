@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Recent Posts</h1>
+  <form method="GET" action="{{ url_for('index') }}" class="mb-3">
+      <input type="text" name="q" placeholder="Search posts..." class="form-control" value="{{ request.args.get('q','') }}">
+  </form>
+  {% for post in posts %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3 class="card-title"><a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a></h3>
+        <p class="card-text">{{ post.content[:150] }}...</p>
+        <p class="card-text"><small class="text-muted">Posted on {{ post.timestamp.strftime('%Y-%m-%d') }} | Likes: <span id="likes-{{ post.id }}">{{ post.likes }}</span></small></p>
+        {% if current_user.is_authenticated %}
+          <button class="btn btn-sm btn-primary like-btn" data-post-id="{{ post.id }}">Like</button>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
