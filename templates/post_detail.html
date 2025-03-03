@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.content }}</p>
+  <p><small>Posted on {{ post.timestamp.strftime('%Y-%m-%d') }} | Likes: <span id="likes-{{ post.id }}">{{ post.likes }}</span></small></p>
+  {% if current_user.is_authenticated %}
+    <button class="btn btn-sm btn-primary like-btn" data-post-id="{{ post.id }}">Like</button>
+  {% endif %}
+  <hr>
+  <h4>Comments</h4>
+  {% for comment in post.comments %}
+    <div class="mb-2">
+      <p>{{ comment.content }}</p>
+      <p><small>By {{ comment.author.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small></p>
+    </div>
+  {% endfor %}
+  {% if current_user.is_authenticated %}
+    <h5>Add a Comment</h5>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="mb-3">
+        {{ form.content(class="form-control", rows="3") }}
+      </div>
+      <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+    </form>
+  {% else %}
+    <p>Please <a href="{{ url_for('login') }}">login</a> to add a comment.</p>
+  {% endif %}
+{% endblock %}
